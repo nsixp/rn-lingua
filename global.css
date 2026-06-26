@@ -1,0 +1,153 @@
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css";
+
+@import "nativewind/theme";
+
+@theme {
+  --font-sans: "Poppins-Regular";
+  --font-poppins: "Poppins-Regular";
+  --font-poppins-medium: "Poppins-Medium";
+  --font-poppins-semibold: "Poppins-SemiBold";
+  --font-poppins-bold: "Poppins-Bold";
+
+  --color-brand-purple: #6c4ef5;
+  --color-brand-deep-purple: #5b3bf6;
+  --color-brand-blue: #4d8bff;
+  --color-brand-green: #21c16b;
+
+  --color-success: #21c16b;
+  --color-warning: #ffc800;
+  --color-streak: #ff8a00;
+  --color-error: #ff4d4f;
+  --color-info: #4d8bff;
+
+  --color-text-primary: #0d132b;
+  --color-text-secondary: #6b7280;
+  --color-border: #e5e7eb;
+  --color-surface: #f6f7fb;
+  --color-background: #ffffff;
+
+  --radius-card: 24px;
+  --radius-control: 18px;
+  --radius-chip: 999px;
+
+  --spacing-screen: 24px;
+  --spacing-card: 20px;
+}
+
+@layer base {
+  * {
+    font-family: "Poppins-Regular";
+  }
+}
+
+@layer utilities {
+  .screen {
+    background-color: var(--color-background);
+  }
+
+  .card {
+    background-color: var(--color-background);
+    border-color: var(--color-border);
+    border-radius: var(--radius-card);
+    border-width: 1px;
+    box-shadow: 0 10px 30px rgba(13, 19, 43, 0.06);
+  }
+
+  .card-soft {
+    background-color: var(--color-surface);
+    border-color: transparent;
+    border-radius: var(--radius-card);
+    border-width: 1px;
+  }
+
+  .button-primary {
+    align-items: center;
+    background-color: var(--color-brand-purple);
+    border-radius: var(--radius-control);
+    box-shadow: 0 8px 18px rgba(108, 78, 245, 0.26);
+    justify-content: center;
+    min-height: 56px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .button-secondary {
+    align-items: center;
+    background-color: var(--color-surface);
+    border-color: var(--color-border);
+    border-radius: var(--radius-control);
+    border-width: 1px;
+    justify-content: center;
+    min-height: 56px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .chip {
+    align-items: center;
+    border-radius: var(--radius-chip);
+    flex-direction: row;
+    gap: 8px;
+    min-height: 32px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .h1 {
+    font-family: "Poppins-Bold";
+    font-size: 32px;
+    line-height: 38px;
+  }
+
+  .h2 {
+    font-family: "Poppins-SemiBold";
+    font-size: 24px;
+    line-height: 31px;
+  }
+
+  .h3 {
+    font-family: "Poppins-SemiBold";
+    font-size: 20px;
+    line-height: 26px;
+  }
+
+  .h4 {
+    font-family: "Poppins-Medium";
+    font-size: 16px;
+    line-height: 22px;
+  }
+
+  .body-lg {
+    font-family: "Poppins-Regular";
+    font-size: 16px;
+    line-height: 26px;
+  }
+
+  .body-md {
+    font-family: "Poppins-Regular";
+    font-size: 14px;
+    line-height: 22px;
+  }
+
+  .body-sm {
+    font-family: "Poppins-Regular";
+    font-size: 13px;
+    line-height: 21px;
+  }
+
+  .caption {
+    font-family: "Poppins-Regular";
+    font-size: 11px;
+    line-height: 15px;
+  }
+
+  .label {
+    font-family: "Poppins-SemiBold";
+    font-size: 12px;
+    letter-spacing: 0px;
+    line-height: 17px;
+    text-transform: uppercase;
+  }
+}
