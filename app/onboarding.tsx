@@ -81,7 +81,7 @@ export default function OnboardingScreen() {
           </View>
         </View>
 
-        <Link href="/" asChild>
+        <Link href="/sign-up" asChild>
           <TouchableOpacity
             activeOpacity={0.85}
             className="button-primary relative h-16 w-full flex-row"
