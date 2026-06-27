@@ -9,14 +9,18 @@ import { View } from "react-native";
 
 import { colors, fontAssets, fontFamilies } from "@/theme";
 
-void SplashScreen.preventAutoHideAsync();
+void SplashScreen.preventAutoHideAsync().catch(() => false);
 
 export default function RootLayout() {
   const [fontsLoaded, fontError] = useFonts(fontAssets);
 
   useEffect(() => {
     if (fontsLoaded || fontError) {
-      void SplashScreen.hideAsync();
+      try {
+        SplashScreen.hide();
+      } catch {
+        // The native splash may already be gone after a development reload.
+      }
     }
   }, [fontError, fontsLoaded]);
 
@@ -36,7 +40,9 @@ export default function RootLayout() {
             fontFamily: fontFamilies.semiBold,
           },
         }}
-      />
+      >
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+      </Stack>
       <StatusBar style="dark" />
     </View>
   );

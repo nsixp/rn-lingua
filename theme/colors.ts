@@ -20,5 +20,6 @@ export const colors = {
     border: "#E5E7EB",
     surface: "#F6F7FB",
     background: "#FFFFFF",
+    overlay: "rgba(0, 0, 0, 0.72)",
   },
 } as const;

@@ -27,6 +27,7 @@
   --color-border: #e5e7eb;
   --color-surface: #f6f7fb;
   --color-background: #ffffff;
+  --color-overlay: rgba(0, 0, 0, 0.72);
 
   --radius-card: 24px;
   --radius-control: 18px;
@@ -76,13 +77,22 @@
   .button-secondary {
     align-items: center;
     background-color: var(--color-surface);
-    border-color: var(--color-border);
     border-radius: var(--radius-control);
-    border-width: 1px;
     justify-content: center;
     min-height: 56px;
     padding-left: 20px;
     padding-right: 20px;
+  }
+
+  .field {
+    background-color: var(--color-background);
+    border-color: var(--color-border);
+    border-radius: var(--radius-control);
+    border-width: 1px;
+    justify-content: center;
+    min-height: 72px;
+    padding-left: var(--spacing-card);
+    padding-right: var(--spacing-card);
   }
 
   .chip {
