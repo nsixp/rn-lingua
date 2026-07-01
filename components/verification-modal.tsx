@@ -22,13 +22,17 @@ const CODE_LENGTH = 6;
 
 type VerificationModalProps = {
   email: string;
-  onComplete: (code: string) => void;
+  error?: string | null;
+  isSubmitting?: boolean;
+  onComplete: (code: string) => void | Promise<void>;
   onRequestClose: () => void;
   visible: boolean;
 };
 
 export function VerificationModal({
   email,
+  error,
+  isSubmitting = false,
   onComplete,
   onRequestClose,
   visible,
@@ -115,6 +119,7 @@ export function VerificationModal({
                     accessibilityLabel={`Verification digit ${index + 1}`}
                     autoFocus={index === 0}
                     caretHidden
+                    editable={!isSubmitting}
                     key={index}
                     keyboardType="number-pad"
                     maxLength={1}
@@ -145,8 +150,16 @@ export function VerificationModal({
               </View>
 
               <Text className="body-sm mt-5 text-center text-text-secondary">
-                Enter the 6-digit code to continue
+                {isSubmitting
+                  ? "Verifying your code…"
+                  : "Enter the 6-digit code to continue"}
               </Text>
+
+              {error ? (
+                <Text className="body-sm mt-2 text-center text-error" selectable>
+                  {error}
+                </Text>
+              ) : null}
 
               <TouchableOpacity
                 activeOpacity={0.7}
