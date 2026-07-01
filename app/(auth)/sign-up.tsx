@@ -1,5 +1,5 @@
-import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { useSignUp } from "@clerk/expo";
+import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import { useState } from "react";
@@ -28,9 +28,10 @@ export default function SignUpScreen() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [verificationVisible, setVerificationVisible] = useState(false);
   const isSubmitting = fetchStatus === "fetching";
+  const isAuthInProgress = isSubmitting || googleAuth.isLoading;
 
   const handleSignUp = async () => {
-    if (!email.trim() || !password) {
+    if (isAuthInProgress || !email.trim() || !password) {
       return;
     }
 
@@ -57,6 +58,24 @@ export default function SignUpScreen() {
     } catch (caughtError) {
       setError(getClerkErrorMessage(caughtError));
     }
+  };
+
+  const handleGoogleAuth = async () => {
+    if (isAuthInProgress) {
+      return;
+    }
+
+    await googleAuth.continueWithGoogle();
+  };
+
+  const handleVerificationClose = () => {
+    if (isAuthInProgress) {
+      return;
+    }
+
+    void signUp.reset();
+    setError(null);
+    setVerificationVisible(false);
   };
 
   const handleVerification = async (code: string) => {
@@ -194,7 +213,7 @@ export default function SignUpScreen() {
         <TouchableOpacity
           activeOpacity={0.86}
           className="button-primary mt-card"
-          disabled={isSubmitting}
+          disabled={isAuthInProgress}
           onPress={handleSignUp}
         >
           {isSubmitting && !verificationVisible ? (
@@ -220,8 +239,8 @@ export default function SignUpScreen() {
           accessibilityLabel="Continue with Google"
           activeOpacity={0.7}
           className="button-secondary relative flex-row"
-          disabled={googleAuth.isLoading}
-          onPress={googleAuth.continueWithGoogle}
+          disabled={isAuthInProgress}
+          onPress={handleGoogleAuth}
         >
           <FontAwesome5
             className="left-8 absolute"
@@ -262,11 +281,7 @@ export default function SignUpScreen() {
         error={error}
         isSubmitting={isSubmitting}
         onComplete={handleVerification}
-        onRequestClose={() => {
-          void signUp.reset();
-          setError(null);
-          setVerificationVisible(false);
-        }}
+        onRequestClose={handleVerificationClose}
         visible={verificationVisible}
       />
     </SafeAreaView>
