@@ -1,0 +1,61 @@
+import type { SupportedLanguage } from "@/types/learning";
+
+export const languages: SupportedLanguage[] = [
+  {
+    id: "es",
+    name: "Spanish",
+    nativeName: "Espanol",
+    flagEmoji: "https://flagcdn.com/w320/es.png",
+    direction: "ltr",
+    description: "Start with friendly greetings and everyday travel phrases.",
+    accentColor: "#FF6B35",
+    starterUnitId: "es-unit-1",
+    isEnabled: true,
+  },
+  {
+    id: "fr",
+    name: "French",
+    nativeName: "Francais",
+    flagEmoji: "https://flagcdn.com/w320/fr.png",
+    direction: "ltr",
+    description: "Practice polite introductions and cafe-ready basics.",
+    accentColor: "#4D8BFF",
+    starterUnitId: "fr-unit-1",
+    isEnabled: true,
+  },
+  {
+    id: "ja",
+    name: "Japanese",
+    nativeName: "Nihongo",
+    flagEmoji: "https://flagcdn.com/w320/jp.png",
+    direction: "ltr",
+    description: "Learn simple greetings with romaji support for beginners.",
+    accentColor: "#FF4D6D",
+    starterUnitId: "ja-unit-1",
+    isEnabled: true,
+  },
+  {
+    id: "ko",
+    name: "Korean",
+    nativeName: "한국어",
+    flagEmoji: "https://flagcdn.com/w320/kr.png",
+    direction: "ltr",
+    description: "Practice everyday greetings and useful polite expressions.",
+    accentColor: "#6C4EF5",
+    starterUnitId: "ko-unit-1",
+    isEnabled: true,
+  },
+  {
+    id: "zh",
+    name: "Chinese",
+    nativeName: "中文",
+    flagEmoji: "https://flagcdn.com/w320/cn.png",
+    direction: "ltr",
+    description: "Learn Mandarin greetings and simple introductions with pinyin.",
+    accentColor: "#FF4D4F",
+    starterUnitId: "zh-unit-1",
+    isEnabled: true,
+  },
+] as const;
+
+export const defaultLanguageId = "es";
