@@ -68,12 +68,17 @@ export default function SignUpScreen() {
     await googleAuth.continueWithGoogle();
   };
 
-  const handleVerificationClose = () => {
+  const handleVerificationClose = async () => {
     if (isAuthInProgress) {
       return;
     }
 
-    void signUp.reset();
+    try {
+      await signUp.reset();
+    } catch {
+      return;
+    }
+
     setError(null);
     setVerificationVisible(false);
   };

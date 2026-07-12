@@ -141,7 +141,7 @@ export default function LanguageSelectionScreen() {
           <View pointerEvents="none" style={styles.bottomListFade} />
         </View>
 
-        <View className="h-68 w-full overflow-hidden">
+        <View className="h-64 w-full overflow-hidden">
           <Image
             className="h-96 w-full"
             resizeMode="contain"
