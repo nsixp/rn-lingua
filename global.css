@@ -95,6 +95,37 @@
     padding-right: var(--spacing-card);
   }
 
+  .search-field {
+    align-items: center;
+    background-color: #fafafd;
+    border-color: var(--color-border);
+    border-radius: 24px;
+    border-width: 1px;
+    flex-direction: row;
+    gap: 12px;
+    min-height: 52px;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .selection-card {
+    align-items: center;
+    background-color: var(--color-background);
+    border-color: #f0f1f5;
+    border-radius: 22px;
+    border-width: 1px;
+    flex-direction: row;
+    min-height: 82px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .selection-card-active {
+    background-color: #faf9ff;
+    border-color: #8067ff;
+    border-width: 2px;
+  }
+
   .chip {
     align-items: center;
     border-radius: var(--radius-chip);
