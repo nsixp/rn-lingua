@@ -14,6 +14,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { images } from "@/constants/images";
 import { defaultLanguageId, languages } from "@/data/languages";
+import { useLanguageStore } from "@/store/language-store";
 import { colors, fontFamilies } from "@/theme";
 import type { LanguageCode } from "@/types/learning";
 
@@ -26,9 +27,15 @@ const learnerCounts: Record<LanguageCode, string> = {
 };
 
 export default function LanguageSelectionScreen() {
+  const savedLanguageId = useLanguageStore(
+    (state) => state.selectedLanguageId,
+  );
+  const setSelectedLanguage = useLanguageStore(
+    (state) => state.setSelectedLanguage,
+  );
   const [query, setQuery] = useState("");
   const [selectedLanguageId, setSelectedLanguageId] =
-    useState<LanguageCode>(defaultLanguageId);
+    useState<LanguageCode>(savedLanguageId ?? defaultLanguageId);
 
   const filteredLanguages = useMemo(() => {
     const normalizedQuery = query.trim().toLocaleLowerCase();
@@ -153,7 +160,10 @@ export default function LanguageSelectionScreen() {
           <TouchableOpacity
             activeOpacity={0.85}
             className="button-primary mt-1 h-14 w-full"
-            onPress={() => router.replace("/")}
+            onPress={() => {
+              setSelectedLanguage(selectedLanguageId);
+              router.replace("/");
+            }}
           >
             <Text className="h4 text-white">Confirm language</Text>
           </TouchableOpacity>

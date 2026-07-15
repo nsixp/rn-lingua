@@ -4,7 +4,7 @@ export const languages: SupportedLanguage[] = [
   {
     id: "es",
     name: "Spanish",
-    nativeName: "Espanol",
+    nativeName: "Español",
     flagEmoji: "https://flagcdn.com/w320/es.png",
     direction: "ltr",
     description: "Start with friendly greetings and everyday travel phrases.",
@@ -15,7 +15,7 @@ export const languages: SupportedLanguage[] = [
   {
     id: "fr",
     name: "French",
-    nativeName: "Francais",
+    nativeName: "Français",
     flagEmoji: "https://flagcdn.com/w320/fr.png",
     direction: "ltr",
     description: "Practice polite introductions and cafe-ready basics.",
@@ -26,7 +26,7 @@ export const languages: SupportedLanguage[] = [
   {
     id: "ja",
     name: "Japanese",
-    nativeName: "Nihongo",
+    nativeName: "日本語",
     flagEmoji: "https://flagcdn.com/w320/jp.png",
     direction: "ltr",
     description: "Learn simple greetings with romaji support for beginners.",
