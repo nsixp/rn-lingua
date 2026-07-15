@@ -9,6 +9,7 @@ import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import { View } from "react-native";
 
+import { useLanguageStore } from "@/store/language-store";
 import { colors, fontAssets, fontFamilies } from "@/theme";
 
 void SplashScreen.preventAutoHideAsync().catch(() => false);
@@ -29,10 +30,16 @@ const publishableKey = getPublishableKey();
 
 function RootNavigator() {
   const { isLoaded, isSignedIn } = useAuth();
+  const hasHydrated = useLanguageStore((state) => state.hasHydrated);
+  const selectedLanguageId = useLanguageStore(
+    (state) => state.selectedLanguageId,
+  );
 
-  if (!isLoaded) {
+  if (!isLoaded || (isSignedIn && !hasHydrated)) {
     return null;
   }
+
+  const hasSelectedLanguage = selectedLanguageId !== null;
 
   return (
     <View className="flex-1 bg-background">
@@ -47,8 +54,13 @@ function RootNavigator() {
           },
         }}
       >
+        <Stack.Protected
+          guard={Boolean(isSignedIn && hasSelectedLanguage)}
+        >
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        </Stack.Protected>
+
         <Stack.Protected guard={Boolean(isSignedIn)}>
-          <Stack.Screen name="index" options={{ headerShown: false }} />
           <Stack.Screen
             name="language-selection"
             options={{ headerShown: false }}
