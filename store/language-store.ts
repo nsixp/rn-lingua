@@ -27,6 +27,9 @@ export const useLanguageStore = create<LanguageState>()(
       onRehydrateStorage: () => () => {
         useLanguageStore.setState({ hasHydrated: true });
       },
+      // AsyncStorage is client-only. Expo Router also evaluates routes during
+      // static web rendering, so hydration must wait for the app runtime.
+      skipHydration: typeof window === "undefined",
     },
   ),
 );
