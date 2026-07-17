@@ -15,6 +15,7 @@ import { defaultLanguageId, languages } from "@/data/languages";
 import { lessons } from "@/data/lessons";
 import { units } from "@/data/units";
 import { useLanguageStore } from "@/store/language-store";
+import { useLearningProgressStore } from "@/store/learning-progress-store";
 import { colors, spacing } from "@/theme";
 
 type IconName = ComponentProps<typeof MaterialCommunityIcons>["name"];
@@ -26,9 +27,6 @@ type PlanItemProps = {
   iconClassName: string;
   title: string;
 };
-
-const DAILY_XP = 15;
-const STREAK_DAYS = 12;
 
 const levelLabels = {
   beginner: "A1",
@@ -75,20 +73,39 @@ export function HomeDashboard() {
   const selectedLanguageId = useLanguageStore(
     (state) => state.selectedLanguageId,
   );
+  const completedLessonIds = useLearningProgressStore(
+    (state) => state.completedLessonIds,
+  );
+  const currentLessonId = useLearningProgressStore(
+    (state) => state.currentLessonId,
+  );
+  const streakDays = useLearningProgressStore((state) => state.streakDays);
+  const xp = useLearningProgressStore((state) => state.xp);
 
   const language =
     languages.find(
       (item) => item.id === (selectedLanguageId ?? defaultLanguageId),
     ) ?? languages[0];
-  const unit =
-    units.find((item) => item.id === language.starterUnitId) ?? units[0];
+  const languageLessons = lessons
+    .filter((lesson) => lesson.languageId === language.id)
+    .sort((first, second) => first.order - second.order);
   const currentLesson =
-    lessons
-      .filter((lesson) => lesson.unitId === unit.id)
-      .sort((first, second) => first.order - second.order)[0] ?? lessons[0];
+    languageLessons.find((lesson) => lesson.id === currentLessonId) ??
+    languageLessons.find(
+      (lesson) => !completedLessonIds.includes(lesson.id),
+    ) ??
+    languageLessons[0] ??
+    lessons[0];
+  const unit =
+    units.find((item) => item.id === currentLesson.unitId) ??
+    units.find((item) => item.id === language.starterUnitId) ??
+    units[0];
 
   const dailyGoal = currentLesson.xpReward;
-  const dailyProgress = Math.min((DAILY_XP / dailyGoal) * 100, 100);
+  const dailyProgress = Math.min((xp / dailyGoal) * 100, 100);
+  const isCurrentLessonCompleted = completedLessonIds.includes(
+    currentLesson.id,
+  );
   const conversationPrompt =
     currentLesson.goals[1]?.title ?? currentLesson.goals[0]?.title;
 
@@ -126,7 +143,7 @@ export function HomeDashboard() {
             source={images.streakFire}
           />
           <Text className="font-poppins-medium text-xl leading-6 text-amber-500">
-            {STREAK_DAYS}
+            {streakDays}
           </Text>
         </View>
 
@@ -151,7 +168,7 @@ export function HomeDashboard() {
           </Text>
           <View className="mt-2 flex-row items-baseline">
             <Text className="font-poppins-semibold text-2xl leading-8 text-text-primary">
-              {DAILY_XP}
+              {xp}
             </Text>
             <Text className="ml-2 font-poppins-medium text-base leading-6 text-text-secondary">
               / {dailyGoal} XP
@@ -228,7 +245,7 @@ export function HomeDashboard() {
         </View>
 
         <PlanItem
-          completed
+          completed={isCurrentLessonCompleted}
           description={currentLesson.title}
           icon="book-open-page-variant"
           iconClassName="bg-brand-purple"

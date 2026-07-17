@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { View } from "react-native";
 
 import { useLanguageStore } from "@/store/language-store";
+import { useLearningProgressStore } from "@/store/learning-progress-store";
 import { colors, fontAssets, fontFamilies } from "@/theme";
 
 void SplashScreen.preventAutoHideAsync().catch(() => false);
@@ -30,12 +31,19 @@ const publishableKey = getPublishableKey();
 
 function RootNavigator() {
   const { isLoaded, isSignedIn } = useAuth();
-  const hasHydrated = useLanguageStore((state) => state.hasHydrated);
+  const hasLanguageHydrated = useLanguageStore((state) => state.hasHydrated);
+  const hasLearningProgressHydrated = useLearningProgressStore(
+    (state) => state.hasHydrated,
+  );
   const selectedLanguageId = useLanguageStore(
     (state) => state.selectedLanguageId,
   );
 
-  if (!isLoaded || (isSignedIn && !hasHydrated)) {
+  if (
+    !isLoaded ||
+    (isSignedIn &&
+      (!hasLanguageHydrated || !hasLearningProgressHydrated))
+  ) {
     return null;
   }
 
