@@ -15,6 +15,9 @@ import streakFire from "@/assets/images/streak-fire.png";
 import treasure from "@/assets/images/treasure.png";
 
 export const images = {
+  aiTeacher: {
+    uri: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=85",
+  },
   androidIconBackground,
   androidIconForeground,
   androidIconMonochrome,

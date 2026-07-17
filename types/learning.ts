@@ -30,6 +30,7 @@ export type SupportedLanguage = {
   id: LanguageCode;
   name: string;
   nativeName: string;
+  greeting: string;
   flagEmoji: string;
   direction: ScriptDirection;
   description: string;
