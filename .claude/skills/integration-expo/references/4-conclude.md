@@ -34,22 +34,22 @@ Create the parent dashboard first with `dashboard-create`, capture its returned 
 }
 ```
 
-When calling `insight-create`, use these known-good query shapes — they are verified against the MCP schema, and the common variations around them are rejected:
+When calling `insight-create`, use these known-good query shapes — they are verified against the MCP schema, and the common variations around them are rejected. Read `.posthog-events.json` first and substitute its exact project-specific event names and properties in the examples; preserve the `TrendsQuery` and `FunnelsQuery` structures rather than copying event names or properties that the project did not implement.
 
 A trends insight with a breakdown (breakdowns go in `breakdownFilter.breakdowns`, an array — there is NO top-level `breakdown` field on `TrendsQuery`):
 
 ```json
 {
-  "name": "Signups by plan (wizard)",
+  "name": "Authentication completions by flow (wizard)",
   "dashboards": [<dashboard id from dashboard-create>],
   "query": {
     "kind": "InsightVizNode",
     "source": {
       "kind": "TrendsQuery",
-      "series": [{ "kind": "EventsNode", "event": "user_signed_up", "math": "total" }],
+      "series": [{ "kind": "EventsNode", "event": "authentication_completed", "math": "total" }],
       "interval": "day",
       "dateRange": { "date_from": "-30d" },
-      "breakdownFilter": { "breakdowns": [{ "type": "event", "property": "plan" }] },
+      "breakdownFilter": { "breakdowns": [{ "type": "event", "property": "authentication_flow" }] },
       "trendsFilter": { "display": "ActionsBar" }
     }
   }
@@ -60,15 +60,17 @@ A conversion funnel (the window fields are camelCase and live INSIDE `funnelsFil
 
 ```json
 {
-  "name": "Signup funnel (wizard)",
+  "name": "Onboarding to learning funnel (wizard)",
   "dashboards": [<dashboard id from dashboard-create>],
   "query": {
     "kind": "InsightVizNode",
     "source": {
       "kind": "FunnelsQuery",
       "series": [
-        { "kind": "EventsNode", "event": "page_viewed" },
-        { "kind": "EventsNode", "event": "user_signed_up" }
+        { "kind": "EventsNode", "event": "onboarding_started" },
+        { "kind": "EventsNode", "event": "authentication_completed" },
+        { "kind": "EventsNode", "event": "language_selected" },
+        { "kind": "EventsNode", "event": "learning_continued" }
       ],
       "dateRange": { "date_from": "-30d" },
       "funnelsFilter": {

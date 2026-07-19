@@ -184,6 +184,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.brand.purple,
     borderRadius: 20,
     height: INDICATOR_HEIGHT,
+    left: 0,
     position: "absolute",
     top: 7,
     width: INDICATOR_WIDTH,

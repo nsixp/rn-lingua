@@ -13,9 +13,9 @@ For each event, add useful properties, and use your access to the PostHog source
 
 Remember that you can find the source code for any dependency in the node_modules directory. This may be necessary to properly populate property names. There are also example project code files available via the PostHog MCP; use these for reference.
 
-Where possible, add calls for PostHog's identify() function on the client side upon events like logins and signups. Use the contents of login and signup forms to identify users on submit. If there is server-side code, pass the client-side session and distinct ID to the server-side code to identify the user. On the server side, make sure events have a matching distinct ID where relevant. 
+Where possible, call PostHog's identify() function on the client only after login or signup succeeds and a stable authenticated user ID, such as the existing `userId`, is available. Use that stable ID as the PostHog distinct ID; never use raw login or signup form values. Never pass credentials, passwords, verification codes, email addresses, phone numbers, or other unnecessary PII to `identify()` or analytics event properties.
 
-It's essential to do this in both client code and server code, so that user behavior from both domains is easy to correlate.
+Add server-side identification and matching distinct IDs only when the Expo project already contains instrumentable server routes or actions. In those existing server surfaces, derive the stable user ID from the server-verified authentication context, and do not forward form payloads, authentication credentials, session tokens, verification codes, or unnecessary PII to analytics. If the project has no instrumentable server routes or actions, limit the changes to client-side login and signup identification; do not create or direct the creation of server architecture solely for PostHog.
 
 You should also add PostHog exception capture error tracking to these files where relevant.
 

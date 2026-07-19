@@ -34,6 +34,7 @@ const publishableKey = getPublishableKey();
 function RootNavigator() {
   const { isLoaded, isSignedIn, userId } = useAuth();
   const pathname = usePathname();
+  const previousUserIdRef = useRef<string | null | undefined>(undefined);
   const previousPathname = useRef<string | undefined>(undefined);
   const hasLanguageHydrated = useLanguageStore((state) => state.hasHydrated);
   const hasLearningProgressHydrated = useLearningProgressStore(
@@ -50,9 +51,19 @@ function RootNavigator() {
       (hasLanguageHydrated && hasLearningProgressHydrated));
 
   useEffect(() => {
+    const previousUserId = previousUserIdRef.current;
+
+    if (previousUserId === userId) {
+      return;
+    }
+
     if (userId) {
       posthog.identify(userId);
+    } else if (previousUserId) {
+      posthog.reset();
     }
+
+    previousUserIdRef.current = userId;
   }, [userId]);
 
   useEffect(() => {
