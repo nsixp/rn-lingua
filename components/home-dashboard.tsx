@@ -14,6 +14,7 @@ import { images } from "@/constants/images";
 import { defaultLanguageId, languages } from "@/data/languages";
 import { lessons } from "@/data/lessons";
 import { units } from "@/data/units";
+import { posthog } from "@/lib/posthog";
 import { useLanguageStore } from "@/store/language-store";
 import { useLearningProgressStore } from "@/store/learning-progress-store";
 import { colors, spacing } from "@/theme";
@@ -109,7 +110,15 @@ export function HomeDashboard() {
   const conversationPrompt =
     currentLesson.goals[1]?.title ?? currentLesson.goals[0]?.title;
 
-  const openLearnTab = () => router.push("/(tabs)/learn");
+  const openLearnTab = () => {
+    posthog.capture("learning_continued", {
+      language_code: language.id,
+      lesson_id: currentLesson.id,
+      lesson_level: currentLesson.level,
+      unit_order: unit.order,
+    });
+    router.push("/(tabs)/learn");
+  };
 
   return (
     <ScrollView

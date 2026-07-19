@@ -17,6 +17,7 @@ import { VerificationModal } from "@/components/verification-modal";
 import { images } from "@/constants/images";
 import { useGoogleAuth } from "@/hooks/use-google-auth";
 import { getClerkErrorMessage } from "@/lib/clerk";
+import { posthog } from "@/lib/posthog";
 import { colors, spacing, typography } from "@/theme";
 
 export default function SignInScreen() {
@@ -71,8 +72,13 @@ export default function SignInScreen() {
         return;
       }
 
+      posthog.capture("authentication_completed", {
+        authentication_method: "email_code",
+        authentication_flow: "sign_in",
+      });
       router.replace("/");
     } catch (caughtError) {
+      posthog.captureException(caughtError, { authentication_flow: "sign_in" });
       setError(getClerkErrorMessage(caughtError));
     }
   };

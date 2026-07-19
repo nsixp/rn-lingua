@@ -14,6 +14,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { images } from "@/constants/images";
 import { defaultLanguageId, languages } from "@/data/languages";
+import { posthog } from "@/lib/posthog";
 import { useLanguageStore } from "@/store/language-store";
 import { colors, fontFamilies } from "@/theme";
 import type { LanguageCode } from "@/types/learning";
@@ -161,6 +162,9 @@ export default function LanguageSelectionScreen() {
             activeOpacity={0.85}
             className="button-primary mt-1 h-14 w-full"
             onPress={() => {
+              posthog.capture("language_selected", {
+                language_code: selectedLanguageId,
+              });
               setSelectedLanguage(selectedLanguageId);
               router.replace("/");
             }}

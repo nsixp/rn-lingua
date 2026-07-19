@@ -3,12 +3,14 @@ import "../global.css";
 import { ClerkProvider, useAuth } from "@clerk/expo";
 import { tokenCache } from "@clerk/expo/token-cache";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { Stack, usePathname } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { PostHogProvider } from "posthog-react-native";
 import { View } from "react-native";
 
+import { posthog } from "@/lib/posthog";
 import { useLanguageStore } from "@/store/language-store";
 import { useLearningProgressStore } from "@/store/learning-progress-store";
 import { colors, fontAssets, fontFamilies } from "@/theme";
@@ -30,7 +32,10 @@ function getPublishableKey() {
 const publishableKey = getPublishableKey();
 
 function RootNavigator() {
-  const { isLoaded, isSignedIn } = useAuth();
+  const { isLoaded, isSignedIn, userId } = useAuth();
+  const pathname = usePathname();
+  const previousUserIdRef = useRef<string | null | undefined>(undefined);
+  const previousPathname = useRef<string | undefined>(undefined);
   const hasLanguageHydrated = useLanguageStore((state) => state.hasHydrated);
   const hasLearningProgressHydrated = useLearningProgressStore(
     (state) => state.hasHydrated,
@@ -39,15 +44,40 @@ function RootNavigator() {
     (state) => state.selectedLanguageId,
   );
 
-  if (
-    !isLoaded ||
-    (isSignedIn &&
-      (!hasLanguageHydrated || !hasLearningProgressHydrated))
-  ) {
+  const hasSelectedLanguage = selectedLanguageId !== null;
+  const isAppReady =
+    isLoaded &&
+    (!isSignedIn ||
+      (hasLanguageHydrated && hasLearningProgressHydrated));
+
+  useEffect(() => {
+    const previousUserId = previousUserIdRef.current;
+
+    if (previousUserId === userId) {
+      return;
+    }
+
+    if (userId) {
+      posthog.identify(userId);
+    } else if (previousUserId) {
+      posthog.reset();
+    }
+
+    previousUserIdRef.current = userId;
+  }, [userId]);
+
+  useEffect(() => {
+    if (isAppReady && previousPathname.current !== pathname) {
+      posthog.screen(pathname, {
+        previous_screen: previousPathname.current ?? null,
+      });
+      previousPathname.current = pathname;
+    }
+  }, [isAppReady, pathname]);
+
+  if (!isAppReady) {
     return null;
   }
-
-  const hasSelectedLanguage = selectedLanguageId !== null;
 
   return (
     <View className="flex-1 bg-background">
@@ -104,7 +134,12 @@ export default function RootLayout() {
 
   return (
     <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
-      <RootNavigator />
+      <PostHogProvider
+        autocapture={{ captureScreens: false, captureTouches: true }}
+        client={posthog}
+      >
+        <RootNavigator />
+      </PostHogProvider>
     </ClerkProvider>
   );
 }
