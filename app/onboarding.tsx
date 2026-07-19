@@ -3,6 +3,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { images } from "@/constants/images";
+import { posthog } from "@/lib/posthog";
 import { colors } from "@/theme";
 
 export default function OnboardingScreen() {
@@ -85,6 +86,7 @@ export default function OnboardingScreen() {
           <TouchableOpacity
             activeOpacity={0.85}
             className="button-primary relative h-16 w-full flex-row"
+            onPress={() => posthog.capture("onboarding_started")}
           >
             <Text className="h3 text-white">Get Started</Text>
             <Text className="absolute right-7 text-4xl leading-10 text-white">
