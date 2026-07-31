@@ -1,3 +1,4 @@
+import { useUser } from "@clerk/expo";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import type { ComponentProps } from "react";
@@ -71,6 +72,7 @@ function PlanItem({
 }
 
 export function HomeDashboard() {
+  const { user } = useUser();
   const selectedLanguageId = useLanguageStore(
     (state) => state.selectedLanguageId,
   );
@@ -92,9 +94,7 @@ export function HomeDashboard() {
     .sort((first, second) => first.order - second.order);
   const currentLesson =
     languageLessons.find((lesson) => lesson.id === currentLessonId) ??
-    languageLessons.find(
-      (lesson) => !completedLessonIds.includes(lesson.id),
-    ) ??
+    languageLessons.find((lesson) => !completedLessonIds.includes(lesson.id)) ??
     languageLessons[0] ??
     lessons[0];
   const unit =
@@ -109,6 +109,12 @@ export function HomeDashboard() {
   );
   const conversationPrompt =
     currentLesson.goals[1]?.title ?? currentLesson.goals[0]?.title;
+  const userName =
+    user?.firstName ??
+    user?.fullName ??
+    user?.username ??
+    user?.primaryEmailAddress?.emailAddress.split("@")[0] ??
+    "Learner";
 
   const openLearnTab = () => {
     posthog.capture("learning_continued", {
@@ -117,7 +123,7 @@ export function HomeDashboard() {
       lesson_level: currentLesson.level,
       unit_order: unit.order,
     });
-    router.push("/(tabs)/learn");
+    router.push("/(tabs)/lesson");
   };
 
   return (
@@ -127,7 +133,7 @@ export function HomeDashboard() {
       contentInsetAdjustmentBehavior="automatic"
       showsVerticalScrollIndicator={false}
     >
-      <View className="h-12 flex-row items-center">
+      <View className="h-14 flex-row items-center">
         <View className="h-10 w-10 overflow-hidden rounded-full border border-border">
           <Image
             accessibilityLabel={`${language.name} flag`}
@@ -137,12 +143,17 @@ export function HomeDashboard() {
           />
         </View>
 
-        <Text
-          className="ml-3 flex-1 h3 leading-6 text-text-primary"
-          numberOfLines={1}
-        >
-          {language.greeting}! 👋
-        </Text>
+        <View className="ml-3 flex-1">
+          <Text
+            className="body-sm font-poppins-medium text-text-primary"
+            numberOfLines={1}
+          >
+            {language.greeting}! 👋
+          </Text>
+          <Text className="h4 text-text-primary" numberOfLines={1}>
+            {userName}
+          </Text>
+        </View>
 
         <View className="ml-2 flex-row items-center gap-1.5">
           <Image
