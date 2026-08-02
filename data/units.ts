@@ -9,7 +9,14 @@ export const units: LearningUnit[] = [
     order: 1,
     level: "beginner",
     color: "#FF6B35",
-    lessonIds: ["es-greetings-1", "es-introductions-1"],
+    lessonIds: [
+      "es-greetings-1",
+      "es-introductions-1",
+      "es-cafe-1",
+      "es-travel-1",
+      "es-shopping-1",
+      "es-family-1",
+    ],
   },
   {
     id: "fr-unit-1",
@@ -19,7 +26,14 @@ export const units: LearningUnit[] = [
     order: 1,
     level: "beginner",
     color: "#4D8BFF",
-    lessonIds: ["fr-greetings-1", "fr-cafe-1"],
+    lessonIds: [
+      "fr-greetings-1",
+      "fr-daily-life-1",
+      "fr-cafe-1",
+      "fr-travel-1",
+      "fr-shopping-1",
+      "fr-family-1",
+    ],
   },
   {
     id: "ja-unit-1",
@@ -29,7 +43,14 @@ export const units: LearningUnit[] = [
     order: 1,
     level: "beginner",
     color: "#FF4D6D",
-    lessonIds: ["ja-greetings-1", "ja-thanks-1"],
+    lessonIds: [
+      "ja-greetings-1",
+      "ja-thanks-1",
+      "ja-cafe-1",
+      "ja-travel-1",
+      "ja-shopping-1",
+      "ja-family-1",
+    ],
   },
   {
     id: "ko-unit-1",
@@ -39,7 +60,14 @@ export const units: LearningUnit[] = [
     order: 1,
     level: "beginner",
     color: "#6C4EF5",
-    lessonIds: ["ko-greetings-1", "ko-politeness-1"],
+    lessonIds: [
+      "ko-greetings-1",
+      "ko-politeness-1",
+      "ko-cafe-1",
+      "ko-travel-1",
+      "ko-shopping-1",
+      "ko-family-1",
+    ],
   },
   {
     id: "zh-unit-1",
@@ -49,6 +77,13 @@ export const units: LearningUnit[] = [
     order: 1,
     level: "beginner",
     color: "#FF4D4F",
-    lessonIds: ["zh-greetings-1", "zh-introductions-1"],
+    lessonIds: [
+      "zh-greetings-1",
+      "zh-introductions-1",
+      "zh-cafe-1",
+      "zh-travel-1",
+      "zh-shopping-1",
+      "zh-family-1",
+    ],
   },
 ] as const;

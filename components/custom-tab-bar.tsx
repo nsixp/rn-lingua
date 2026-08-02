@@ -1,18 +1,14 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import type { ComponentProps } from "react";
-import { useEffect } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import Animated, {
   FadeIn,
   FadeOut,
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { colors } from "@/theme";
+import { colors, fontFamilies } from "@/theme";
 
 type IconName = ComponentProps<typeof MaterialCommunityIcons>["name"];
 
@@ -22,17 +18,13 @@ type TabConfig = {
   icon: IconName;
 };
 
-const HORIZONTAL_PADDING = 8;
-const INDICATOR_HEIGHT = 56;
-const INDICATOR_WIDTH = 56;
-
 const tabs: Record<string, TabConfig> = {
   index: {
     accessibilityLabel: "Home",
     activeIcon: "home-variant",
     icon: "home-variant-outline",
   },
-  learn: {
+  lesson: {
     accessibilityLabel: "Learn",
     activeIcon: "book-open-page-variant",
     icon: "book-open-page-variant-outline",
@@ -60,33 +52,6 @@ export function CustomTabBar({
   navigation,
 }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
-  const activeIndex = useSharedValue(state.index);
-  const tabBarWidth = useSharedValue(0);
-
-  useEffect(() => {
-    activeIndex.value = withSpring(state.index, {
-      damping: 20,
-      mass: 0.7,
-      stiffness: 180,
-    });
-  }, [activeIndex, state.index]);
-
-  const indicatorStyle = useAnimatedStyle(() => {
-    const itemWidth =
-      (tabBarWidth.value - HORIZONTAL_PADDING * 2) / state.routes.length;
-
-    return {
-      opacity: tabBarWidth.value > 0 ? 1 : 0,
-      transform: [
-        {
-          translateX:
-            HORIZONTAL_PADDING +
-            itemWidth * activeIndex.value +
-            (itemWidth - INDICATOR_WIDTH) / 2,
-        },
-      ],
-    };
-  });
 
   return (
     <View
@@ -95,14 +60,7 @@ export function CustomTabBar({
         { paddingBottom: Math.max(insets.bottom - 12, 8) },
       ]}
     >
-      <View
-        onLayout={(event) => {
-          tabBarWidth.value = event.nativeEvent.layout.width;
-        }}
-        style={styles.items}
-      >
-        <Animated.View style={[styles.indicator, indicatorStyle]} />
-
+      <View style={styles.items}>
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key];
           const config = tabs[route.name];
@@ -148,12 +106,21 @@ export function CustomTabBar({
                   style={styles.icon}
                 >
                   <MaterialCommunityIcons
-                    color={isFocused ? colors.neutral.background : "#697593"}
+                    color={isFocused ? colors.brand.purple : "#697593"}
                     name={isFocused ? config.activeIcon : config.icon}
-                    size={28}
+                    size={27}
                   />
                 </Animated.View>
               </View>
+              <Text
+                numberOfLines={1}
+                style={[
+                  styles.label,
+                  isFocused ? styles.activeLabel : styles.inactiveLabel,
+                ]}
+              >
+                {options.title ?? config.accessibilityLabel}
+              </Text>
             </Pressable>
           );
         })}
@@ -171,35 +138,37 @@ const styles = StyleSheet.create({
   },
   iconSlot: {
     alignItems: "center",
-    height: INDICATOR_HEIGHT,
+    height: 32,
     justifyContent: "center",
-    width: INDICATOR_WIDTH,
+    width: 48,
   },
   icon: {
     alignItems: "center",
     justifyContent: "center",
     position: "absolute",
   },
-  indicator: {
-    backgroundColor: colors.brand.purple,
-    borderRadius: 20,
-    height: INDICATOR_HEIGHT,
-    left: 0,
-    position: "absolute",
-    top: 7,
-    width: INDICATOR_WIDTH,
-    zIndex: 1,
-  },
   items: {
+    alignItems: "center",
     flexDirection: "row",
-    height: 68,
-    paddingHorizontal: HORIZONTAL_PADDING,
+    height: 70,
+    paddingHorizontal: 5,
     position: "relative",
+  },
+  label: {
+    fontFamily: fontFamilies.medium,
+    fontSize: 10,
+    lineHeight: 14,
+    marginTop: 1,
+  },
+  activeLabel: {
+    color: colors.brand.purple,
+  },
+  inactiveLabel: {
+    color: "#697593",
   },
   tab: {
     alignItems: "center",
     flex: 1,
     justifyContent: "center",
-    zIndex: 2,
   },
 });

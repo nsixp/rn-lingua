@@ -1,12 +1,14 @@
 import type { Lesson } from "@/types/learning";
 
-export const lessons: Lesson[] = [
+import { supplementalLessons } from "@/data/supplemental-lessons";
+
+const coreLessons: Lesson[] = [
   {
     id: "es-greetings-1",
     languageId: "es",
     unitId: "es-unit-1",
-    title: "Say Hello",
-    subtitle: "Greet someone and ask how they are.",
+    title: "Greetings & Introductions",
+    subtitle: "Say hello and start a friendly conversation.",
     order: 1,
     level: "beginner",
     xpReward: 20,
@@ -113,8 +115,8 @@ export const lessons: Lesson[] = [
     id: "es-introductions-1",
     languageId: "es",
     unitId: "es-unit-1",
-    title: "Introduce Yourself",
-    subtitle: "Share your name in one simple sentence.",
+    title: "Daily Life",
+    subtitle: "Share your name and talk about your day.",
     order: 2,
     level: "beginner",
     xpReward: 20,
@@ -208,7 +210,7 @@ export const lessons: Lesson[] = [
     id: "fr-greetings-1",
     languageId: "fr",
     unitId: "fr-unit-1",
-    title: "Bonjour",
+    title: "Greetings & Introductions",
     subtitle: "Say hello and use one polite reply.",
     order: 1,
     level: "beginner",
@@ -313,7 +315,7 @@ export const lessons: Lesson[] = [
     unitId: "fr-unit-1",
     title: "At the Cafe",
     subtitle: "Order one drink politely.",
-    order: 2,
+    order: 3,
     level: "beginner",
     xpReward: 20,
     estimatedMinutes: 6,
@@ -1008,3 +1010,5 @@ export const lessons: Lesson[] = [
       "You are Lingua's friendly Mandarin Chinese audio teacher. Teach a beginner to introduce themself with 我叫... and ask 你叫什么名字？ Show pinyin, model the tones twice, and invite the learner to answer with their own name.",
   },
 ] as const;
+
+export const lessons: Lesson[] = [...coreLessons, ...supplementalLessons];
