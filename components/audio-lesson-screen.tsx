@@ -1,6 +1,7 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { router } from "expo-router";
+import type { ComponentProps } from "react";
 import { useMemo, useState } from "react";
 import {
   StyleSheet,
@@ -336,7 +337,7 @@ export function AudioLessonScreen({ lesson }: AudioLessonScreenProps) {
 
 type HeaderButtonProps = {
   accessibilityLabel: string;
-  icon: React.ComponentProps<typeof MaterialCommunityIcons>["name"];
+  icon: ComponentProps<typeof MaterialCommunityIcons>["name"];
   onPress: () => void;
 };
 
@@ -368,7 +369,7 @@ type LessonControlProps = {
   active: boolean;
   compact: boolean;
   destructive?: boolean;
-  icon: React.ComponentProps<typeof MaterialCommunityIcons>["name"];
+  icon: ComponentProps<typeof MaterialCommunityIcons>["name"];
   label: string;
   onPress: () => void;
 };

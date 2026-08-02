@@ -6,7 +6,7 @@ export const units: LearningUnit[] = [
     languageId: "es",
     title: "First Conversations",
     description: "Say hello, introduce yourself, and ask how someone is.",
-    order: 3,
+    order: 1,
     level: "beginner",
     color: "#FF6B35",
     lessonIds: [
@@ -23,7 +23,7 @@ export const units: LearningUnit[] = [
     languageId: "fr",
     title: "Friendly Basics",
     description: "Use polite greetings and simple cafe phrases.",
-    order: 3,
+    order: 1,
     level: "beginner",
     color: "#4D8BFF",
     lessonIds: [
@@ -40,7 +40,7 @@ export const units: LearningUnit[] = [
     languageId: "ja",
     title: "Hello Japan",
     description: "Build confidence with greetings and short replies.",
-    order: 3,
+    order: 1,
     level: "beginner",
     color: "#FF4D6D",
     lessonIds: [
@@ -57,7 +57,7 @@ export const units: LearningUnit[] = [
     languageId: "ko",
     title: "Hello Korea",
     description: "Greet people and use everyday polite expressions.",
-    order: 3,
+    order: 1,
     level: "beginner",
     color: "#6C4EF5",
     lessonIds: [
@@ -74,7 +74,7 @@ export const units: LearningUnit[] = [
     languageId: "zh",
     title: "First Mandarin",
     description: "Say hello, introduce yourself, and use short replies.",
-    order: 3,
+    order: 1,
     level: "beginner",
     color: "#FF4D4F",
     lessonIds: [
